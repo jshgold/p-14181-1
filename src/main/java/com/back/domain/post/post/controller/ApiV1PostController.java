@@ -61,9 +61,7 @@ public class ApiV1PostController {
 
         Post post = postService.findById(id).get();
 
-        if (!actor.equals(post.getAuthor()))
-            throw new ServiceException("403-1", "글 수정 권한이 없습니다.");
-
+        post.checkActorCanModify(actor);
         postService.delete(post);
 
         return new RsData<>(

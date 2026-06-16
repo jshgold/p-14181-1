@@ -68,9 +68,7 @@ public class ApiV1PostCommentController {
         Post post = postService.findById(postId).get();
         PostComment postComment = post.findCommentById(id).get();
 
-        if (!actor.equals(postComment.getAuthor()))
-            throw new ServiceException("403-1", "댓글 삭제 권한이 없습니다.");
-
+        postComment.checkActorCanDelete(actor);
         postService.deleteComment(post, postComment);
 
         return new RsData<>(
@@ -128,7 +126,9 @@ public class ApiV1PostCommentController {
     ) {
         Member actor = rq.getActor();
 
-        Post post = postService.findById(postId).get();
+        Post post = postService.findById(postId).orElse(null);
+
+        if(post == null) throw new ServiceException("400-1", "글이없는디?");
 
         PostComment postComment = postService.writeComment(actor, post, reqBody.content);
 
