@@ -33,12 +33,21 @@ public class BaseInitData {
     @Transactional
     public void work1() {
         if (memberService.count() > 0) return;
+        //개발을 위해 더미 데이터 생성 및 api키를 username으로 변경
+        Member memberSystem = memberService.join("system", "1234", "시스템");
+        memberSystem.modifyApiKey(memberSystem.getUsername());
 
-        memberService.join("system", "1234", "시스템"); // 이것의 용도는 추후에 설명
-        memberService.join("admin", "1234", "관리자");
-        memberService.join("user1", "1234", "유저1");
-        memberService.join("user2", "1234", "유저2");
-        memberService.join("user3", "1234", "유저3");
+        Member memberAdmin = memberService.join("admin", "1234", "관리자");
+        memberAdmin.modifyApiKey(memberAdmin.getUsername());
+
+        Member memberUser1 = memberService.join("user1", "1234", "유저1");
+        memberUser1.modifyApiKey(memberUser1.getUsername());
+
+        Member memberUser2 = memberService.join("user2", "1234", "유저2");
+        memberUser2.modifyApiKey(memberUser2.getUsername());
+
+        Member memberUser3 = memberService.join("user3", "1234", "유저3");
+        memberUser3.modifyApiKey(memberUser3.getUsername());
     }
 
     @Transactional
