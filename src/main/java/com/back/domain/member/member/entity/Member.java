@@ -33,4 +33,8 @@ public class Member extends BaseEntity {
     public void modifyApiKey(String apiKey) {
         this.apiKey = apiKey;
     }
+
+    public void deleteApiKey() {
+        this.apiKey = "";
+    }
 }

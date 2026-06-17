@@ -104,4 +104,15 @@ public class ApiV1MemberController {
                 "%s님의 정보입니다.".formatted(member.getName()),
                 memberDto);
     }
+
+    @DeleteMapping("/logout")
+    public RsData<MemberDto> logout() {
+//        Member member = rq.getActor();
+//        member.deleteApiKey();
+        rq.deleteCookie("apiKey");
+        return new RsData<>(
+                "200-1",
+                "로그아웃 되었습니다."
+        );
+    }
 }
