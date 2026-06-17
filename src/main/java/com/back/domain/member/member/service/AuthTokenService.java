@@ -18,4 +18,6 @@ public class AuthTokenService {
                 Map.of("id", id, "username", username)
         );
     }
+
+
 }
