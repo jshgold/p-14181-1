@@ -47,4 +47,11 @@ public class Member extends BaseEntity {
     public void setName(String name) {
         this.nickname = name;
     }
+
+    public boolean isAdmin() {
+        if ("system".equals(username)) return true;
+        if ("admin".equals(username)) return true;
+
+        return false;
+    }
 }
