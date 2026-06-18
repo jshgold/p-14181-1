@@ -44,11 +44,14 @@ public class ApiV1MemberController {
     public RsData<MemberDto> join(
             @RequestBody @Valid MemberJoinReqBody reqBody
     ) {
+
         Member member = memberService.join(
                 reqBody.username(),
                 reqBody.password(),
                 reqBody.nickname()
         );
+
+
 
         return new RsData<>(
                 "201-1",
@@ -82,8 +85,11 @@ public class ApiV1MemberController {
         Member member = memberService.findByUsername(reqBody.username())
                 .orElseThrow(() -> new ServiceException("401-1", "존재하지 않는 아이디입니다."));
 
-        if (!member.getPassword().equals(reqBody.password()))
-            throw new ServiceException("401-2", "비밀번호가 일치하지 않습니다.");
+        memberService.checkPassword(
+                member,
+                reqBody.password()
+        );
+
         String accessToken = memberService.genAccessToken(member);
         rq.setCookie("accessToken", accessToken);
         rq.setCookie("apiKey", member.getApiKey());
