@@ -100,11 +100,11 @@ public class ApiV1MemberController {
 
     @GetMapping("/me")
     public RsData<MemberDto> me() {
-        Member member = rq.getActor();
-        MemberDto memberDto = new MemberDto(member);
+        Member actor = memberService.findById(rq.getActor().getId()).get();
+        MemberDto memberDto = new MemberDto(actor);
         return new RsData<>(
                 "200-1",
-                "%s님의 정보입니다.".formatted(member.getName()),
+                "%s님의 정보입니다.".formatted(actor.getName()),
                 memberDto);
     }
 
