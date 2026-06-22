@@ -28,10 +28,6 @@ public class ApiV1AdmPostController {
 
     @GetMapping("/count")
     public AdmPostCountResBody count() {
-        Member actor = rq.getActor();
-
-        if (!actor.isAdmin())
-            throw new ServiceException("403-1", "권한이 없습니다.");
 
         return new AdmPostCountResBody(
                 postService.count()
