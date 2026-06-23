@@ -1,15 +1,27 @@
 package com.back.global.app;
 
+import com.back.standard.util.Ut;
+import jakarta.annotation.PostConstruct;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import tools.jackson.databind.ObjectMapper;
 
 @Configuration
 public class AppConfig {
     private static Environment environment;
+
+    @Getter
+    private static ObjectMapper objectMapper;
+
+    @Autowired
+    public void setObjectMapper(ObjectMapper objectMapper) {
+        AppConfig.objectMapper = objectMapper;
+    }
 
     @Autowired
     public void setEnvironment(Environment environment) {
@@ -30,6 +42,11 @@ public class AppConfig {
 
     public static boolean isNotProd() {
         return !isProd();
+    }
+
+    @PostConstruct
+    public void postConstruct() {
+        Ut.json.objectMapper = objectMapper;
     }
 
     @Bean

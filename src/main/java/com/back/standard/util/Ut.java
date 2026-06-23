@@ -1,9 +1,11 @@
 package com.back.standard.util;
 
+import com.back.global.app.AppConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ClaimsBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import tools.jackson.databind.ObjectMapper;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
@@ -65,6 +67,23 @@ public class Ut {
                 );
             } catch (Exception e) {
                 return null;
+            }
+        }
+    }
+
+    public static class json {
+        public static ObjectMapper objectMapper;
+
+
+        public static String toString(Object object) {
+            return toString(object, null);
+        }
+
+        public static String toString(Object object, String defaultValue) {
+            try {
+                return objectMapper.writeValueAsString(object);
+            } catch (Exception e) {
+                return defaultValue;
             }
         }
     }
