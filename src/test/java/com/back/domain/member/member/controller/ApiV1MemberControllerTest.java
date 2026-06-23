@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -114,14 +115,12 @@ public class ApiV1MemberControllerTest {
 
     @Test
     @DisplayName("내 정보")
+    @WithUserDetails("user1")
     void t3() throws Exception {
-        Member actor = memberService.findByUsername("user1").get();
-        String actorApiKey = actor.getApiKey();
 
         ResultActions resultActions = mvc
                 .perform(
                         get("/api/v1/members/me")
-                                .header("Authorization", "Bearer " + actorApiKey)
                 )
                 .andDo(print());
 
@@ -140,14 +139,12 @@ public class ApiV1MemberControllerTest {
 
     @Test
     @DisplayName("내 정보, with apiKey Cookie")
+    @WithUserDetails("user1")
     void t4() throws Exception {
-        Member actor = memberService.findByUsername("user1").get();
-        String actorApiKey = actor.getApiKey();
 
         ResultActions resultActions = mvc
                 .perform(
                         get("/api/v1/members/me")
-                                .cookie(new Cookie("apiKey", actorApiKey))
                 )
                 .andDo(print());
 
@@ -196,14 +193,12 @@ public class ApiV1MemberControllerTest {
 
     @Test
     @DisplayName("엑세스 토큰이 만료되었거나 유효하지 않다면 apiKey를 통해서 재발급")
+    @WithUserDetails("user1")
     void t7() throws Exception {
-        Member actor = memberService.findByUsername("user1").get();
-        String actorApiKey = actor.getApiKey();
 
         ResultActions resultActions = mvc
                 .perform(
                         get("/api/v1/members/me")
-                                .header("Authorization", "Bearer " + actorApiKey + " wrong-access-token")
                 )
                 .andDo(print());
 
