@@ -1,14 +1,15 @@
 package com.back.domain.member.member.dto;
 
 import com.back.domain.member.member.entity.Member;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
 public record MemberDto(
-        int id,
-        LocalDateTime createDate,
-        LocalDateTime modifyDate,
-        String name
+        @NotNull int id,
+        @NotNull LocalDateTime createDate,
+        @NotNull LocalDateTime modifyDate,
+        @NotNull String name
 ) {
     public MemberDto(int id, LocalDateTime createDate, LocalDateTime modifyDate, String name) {
         this.id = id;
